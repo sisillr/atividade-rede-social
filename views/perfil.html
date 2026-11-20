@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Meu perfil — cozy club{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+  <form
+    id="form-foto-perfil"
+    method="POST"
+    action="{{ url_for('atualizar_foto_perfil') }}"
+    enctype="multipart/form-data"
+  >
+    <div class="avatar-wrapper">
+      {% if usuario and usuario.foto_perfil %}
+        <img
+          src="{{ url_for('static', filename='uploads/' + usuario.foto_perfil) }}"
+          alt="Foto de perfil de {{ usuario_nome }}"
+          class="avatar-perfil-grande"
+        >
+      {% else %}
+        <div class="avatar-perfil-grande"></div>
+      {% endif %}
+
+      <label
+        for="input-foto-perfil"
+        class="btn-foto-mais"
+        title="{% if usuario and usuario.foto_perfil %}Alterar foto de perfil{% else %}Adicionar foto de perfil{% endif %}"
+        aria-label="{% if usuario and usuario.foto_perfil %}Alterar foto de perfil{% else %}Adicionar foto de perfil{% endif %}"
+      >
+        +
+      </label>
+
+      <input
+        type="file"
+        id="input-foto-perfil"
+        name="foto_perfil"
+        accept=".png,.jpg,.jpeg,.gif"
+        class="d-none"
+        required
+      >
+    </div>
+  </form>
+
+  <h1 class="h3 fw-bold mb-1" style="color: #420D40;">{{ usuario_nome }}</h1>
+  <p class="mb-0" style="color: #6B3A68;">{{ usuario_email }}</p>
+</div>
+
+<h2 class="section-heading">Minhas postagens</h2>
+
+{% if posts %}
+  {% for post in posts %}
+    <article class="cozy-box">
+      <div class="row align-items-center g-3">
+        <div class="col-md-8">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            {% if post.autor and post.autor.foto_perfil %}
+              <img
+                src="{{ url_for('static', filename='uploads/' + post.autor.foto_perfil) }}"
+                alt="Foto de {{ post.autor.nome }}"
+                class="avatar-circulo"
+              >
+            {% else %}
+              <span class="avatar-circulo"></span>
+            {% endif %}
+            <strong>{{ post.autor.nome }}</strong>
+          </div>
+
+          <p class="mb-3" style="color: #6B3A68; max-width: 420px;">
+            {{ post.legenda or "" }}
+          </p>
+
+          <div class="text-end fw-semibold" style="font-size: 0.95rem;">
+            {{ post.data_criacao.strftime("%H:%M") }}
+          </div>
+        </div>
+
+        <div class="col-md-4 text-md-end">
+          <img
+            src="{{ url_for('static', filename='uploads/' + post.imagem) }}"
+            alt="Minha postagem"
+            class="post-imagem"
+          >
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+{% else %}
+  <div class="cozy-box">
+    <p class="mb-0" style="color: #6B3A68;">Você ainda não publicou nenhuma foto de hobby.</p>
+  </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const inputFotoPerfil = document.getElementById("input-foto-perfil");
+  const formFotoPerfil = document.getElementById("form-foto-perfil");
+
+  if (inputFotoPerfil && formFotoPerfil) {
+    inputFotoPerfil.addEventListener("change", () => {
+      if (inputFotoPerfil.files.length > 0) {
+        formFotoPerfil.submit();
+      }
+    });
+  }
+</script>
+{% endblock %}

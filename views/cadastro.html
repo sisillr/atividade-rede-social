@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Cadastre-se — cozy club{% endblock %}
+
+{% block body %}
+<div class="auth-wrapper">
+  <div class="w-100" style="max-width: 560px;">
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+      {% if mensagens %}
+        {% for categoria, mensagem in mensagens %}
+          <div class="alert alert-{{ categoria }}">{{ mensagem }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="auth-card">
+      <h2 class="auth-title">Cadastre-se</h2>
+      <form method="POST" action="{{ url_for('cadastro') }}">
+        <div class="mb-3">
+          <label for="nome" class="form-label auth-label">Nome</label>
+          <input type="text" class="form-control auth-input" id="nome" name="nome" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label auth-label">E-mail</label>
+          <input type="email" class="form-control auth-input" id="email" name="email" required>
+        </div>
+
+        <div class="mb-4">
+          <label for="senha" class="form-label auth-label">Senha</label>
+          <input type="password" class="form-control auth-input" id="senha" name="senha" required>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn-vinho">Cadastrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

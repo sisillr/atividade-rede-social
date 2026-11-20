@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Login — cozy club{% endblock %}
+
+{% block body %}
+<div class="auth-wrapper">
+  <div class="w-100" style="max-width: 560px;">
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+      {% if mensagens %}
+        {% for categoria, mensagem in mensagens %}
+          <div class="alert alert-{{ categoria }}">{{ mensagem }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="auth-card">
+      <h2 class="auth-title">Login</h2>
+      <form method="POST" action="{{ url_for('login') }}">
+        <div class="mb-3">
+          <label for="email" class="form-label auth-label">E-mail</label>
+          <input type="email" class="form-control auth-input" id="email" name="email" required>
+        </div>
+
+        <div class="mb-4">
+          <label for="senha" class="form-label auth-label">Senha</label>
+          <input type="password" class="form-control auth-input" id="senha" name="senha" required>
+        </div>
+
+        <div class="text-center mb-3">
+          <button type="submit" class="btn-vinho">Login</button>
+        </div>
+
+        <p class="text-center mb-0" style="color: #fff; font-size: 0.9rem;">
+          Não tem cadastro?
+          <a href="{{ url_for('cadastro') }}" style="color: var(--vinho-texto); font-weight: 600;">Cadastre-se</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

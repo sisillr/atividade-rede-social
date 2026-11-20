@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Feed Social — cozy club{% endblock %}
+
+{% block content %}
+<h1 class="page-greeting">Olá, {{ usuario_nome }}!</h1>
+<p class="page-subtitle">Visualize e apoie os hobbies divulgados hoje.</p>
+
+<h2 class="section-heading">Feed Social</h2>
+
+{% if posts %}
+  {% for post in posts %}
+    <article class="cozy-box">
+      <div class="row align-items-center g-3">
+        <div class="col-md-8">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            {% if post.autor and post.autor.foto_perfil %}
+              <img
+                src="{{ url_for('static', filename='uploads/' + post.autor.foto_perfil) }}"
+                alt="Foto de {{ post.autor.nome }}"
+                class="avatar-circulo"
+              >
+            {% else %}
+              <span class="avatar-circulo"></span>
+            {% endif %}
+            <strong>{{ post.autor.nome }}</strong>
+            {% if post.hobby %}
+              <span class="badge rounded-pill" style="background-color: #FFD5EA; color: #420D40;">
+                {{ post.hobby }}
+              </span>
+            {% endif %}
+          </div>
+
+          <p class="mb-3" style="color: #6B3A68; max-width: 420px;">
+            {{ post.legenda or "" }}
+          </p>
+
+          <div class="text-end fw-semibold" style="font-size: 0.95rem;">
+            {{ post.data_criacao.strftime("%H:%M") }}
+          </div>
+        </div>
+
+        <div class="col-md-4 text-md-end">
+          <img
+            src="{{ url_for('static', filename='uploads/' + post.imagem) }}"
+            alt="Foto de {{ post.autor.nome }}"
+            class="post-imagem"
+          >
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+{% else %}
+  <div class="cozy-box">
+    <p class="mb-0" style="color: #6B3A68;">
+      Nenhuma postagem ainda. Clique em <strong>Nova postagem</strong> para compartilhar seu hobby!
+    </p>
+  </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Nova Postagem — cozy club{% endblock %}
+
+{% block content %}
+<h1 class="page-greeting">Olá, {{ usuario_nome }}!</h1>
+<p class="page-subtitle">Compartilhe uma foto do seu hobby com a comunidade.</p>
+
+<h2 class="section-heading">Nova postagem</h2>
+
+<div class="cozy-box" style="max-width: 680px;">
+  <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="hobby" class="form-label auth-label">Hobby (opcional)</label>
+      <input
+        type="text"
+        class="form-control auth-input"
+        id="hobby"
+        name="hobby"
+        placeholder="Ex.: Pintura, Crochê, Leitura, Cozinha..."
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="legenda" class="form-label auth-label">Legenda / descrição</label>
+      <input
+        type="text"
+        class="form-control auth-input"
+        id="legenda"
+        name="legenda"
+        placeholder="Conte como foi fazer esse hobby hoje..."
+      >
+    </div>
+
+    <div class="mb-4">
+      <label for="file" class="form-label auth-label">Foto do hobby</label>
+      <input
+        type="file"
+        class="form-control"
+        id="file"
+        name="file"
+        accept=".png,.jpg,.jpeg,.gif"
+        required
+      >
+    </div>
+
+    <button type="submit" class="btn-vinho">Publicar no feed</button>
+  </form>
+</div>
+{% endblock %}
